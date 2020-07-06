@@ -1,0 +1,6 @@
+{
+    "singleQuote": true,
+    "[javascript]": {
+        "editor.formatOnSave": true
+    }
+}
