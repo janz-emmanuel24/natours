@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookierParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -28,6 +29,14 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // 1) GLOBAL MIDDLE WARES
+// implement CORS
+app.use(cors()); // sets the Access-Control-Allow-Origin to everywhere(*)--this is for simple requests like get and post
+
+// for complex requests. delete, patch etc ie pre-flight phase
+app.options('*', cors()); // this works for all the routes
+// app.options('/api/v1/tours/:id', cors()); // this works for only this particular route defined
+
+
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
