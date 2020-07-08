@@ -177,11 +177,11 @@ tourSchema.post('save', function(doc, next) {
     next();
 });
 
-tourSchema.post(/^find/, function(docs, next) {
-    console.log(`Query took ${Date.now() - this.start} milliseconds to load`);
-    //console.log(docs);
-    next();
-});
+// tourSchema.post(/^find/, function(docs, next) {
+//     console.log(`Query took ${Date.now() - this.start} milliseconds to load`);
+//     //console.log(docs);
+//     next();
+// });
 
 // AGGREGATION MIDDLEWARE
 // tourSchema.pre('aggregate', function(next) {

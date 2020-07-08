@@ -1,5 +1,7 @@
 const crypto = require('crypto');
-const { promisify } = require('util');
+const {
+    promisify
+} = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
@@ -53,14 +55,17 @@ exports.signup = catchAsync(async(req, res, next) => {
     //     passwordConfirm: req.body.passwordConfirm
     // });
     const url = `${req.protocol}://${req.get('host')}/me`;
-    console.log(url);
+    // console.log(url);
     await new Email(newUser, url).sendWelcome();
 
     createSendToken(newUser, 201, res);
 });
 
 exports.login = catchAsync(async(req, res, next) => {
-    const { email, password } = req.body;
+    const {
+        email,
+        password
+    } = req.body;
 
     //check if email and password exist
     if (!email || !password) {
@@ -73,13 +78,13 @@ exports.login = catchAsync(async(req, res, next) => {
     }).select('+password');
 
     //const correct = user.correctPassword(password, user.password);
-    console.log(user);
+    // console.log(user);
 
     if (!user || !(await user.correctPassword(password, user.password))) {
         return next(new AppError('Incorrect email or password', 401));
     }
 
-    console.log(user);
+    // console.log(user);
 
     //if everything is ok send the token to the client
     createSendToken(user, 200, res);

@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookierParser = require('cookie-parser');
+const compression = require('compression');
 
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -74,6 +75,8 @@ app.use(
         ]
     })
 );
+
+app.use(compression());
 
 // Data sanitization against XSS
 app.use(xss());
