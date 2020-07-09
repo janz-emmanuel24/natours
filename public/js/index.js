@@ -16,6 +16,10 @@ import {
     bookTour
 } from './stripe';
 
+import {
+    showAlert
+} from './alerts';
+
 // Create the DOM element
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
@@ -80,4 +84,7 @@ if (bookBtn)
             tourId
         } = e.target.dataset;
         bookTour(tourId);
-    })
+    });
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alert) showAlert('success', alertMessage, 20);
