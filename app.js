@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookierParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
 
@@ -21,7 +22,7 @@ const bookingRouter = require('./routes/bookingRoutes');
 const bookingController = require('./controllers/bookingController');
 const viewRouter = require('./routes/viewRoutes');
 
-//start express up 
+//start express up
 const app = express();
 
 app.enable('trust proxy');
@@ -36,7 +37,6 @@ app.use(cors()); // sets the Access-Control-Allow-Origin to everywhere(*)--this 
 // for complex requests. delete, patch etc ie pre-flight phase
 app.options('*', cors()); // this works for all the routes
 // app.options('/api/v1/tours/:id', cors()); // this works for only this particular route defined
-
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -58,9 +58,13 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
-app.post('/webhook-checkout', express.raw({
-    type: 'application/json'
-}), bookingController.webhookCheckout)
+app.post(
+    '/webhook-checkout',
+    bodyParser.raw({
+        type: 'application/json'
+    }),
+    bookingController.webhookCheckout
+);
 
 // Body parser: reading data from body in req.body
 app.use(
@@ -68,12 +72,13 @@ app.use(
         limit: '12kb'
     })
 );
-app.use(express.urlencoded({
-    extended: true,
-    limit: '12kb'
-}));
+app.use(
+    express.urlencoded({
+        extended: true,
+        limit: '12kb'
+    })
+);
 app.use(cookierParser());
-
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
