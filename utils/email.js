@@ -14,7 +14,14 @@ module.exports = class Email {
     newTransport() {
         //for production we shall use a real one and for dev we shall use mail trap
         if (process.env.NODE_ENV === 'production') {
-            return 1;
+            // SENDGRID
+            return nodemailer.createTransport({
+                service: 'SendGrid',
+                auth: {
+                    user: process.env.SENDGRID_USERNAME,
+                    pass: process.env.SENDGRID_PASSWORD
+                }
+            })
         }
         return nodemailer.createTransport({
             host: 'smtp.mailtrap.io',
