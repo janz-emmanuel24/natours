@@ -24,11 +24,11 @@ module.exports = class Email {
             })
         }
         return nodemailer.createTransport({
-            host: 'smtp.mailtrap.io',
-            port: 2525,
+            host: `${process.env.EMAIL_HOST}`,
+            port: process.env.EMAIL_PORT,
             auth: {
-                user: '119a77526e8df7',
-                pass: '1b0eebcbc7bffa'
+                user: `${process.env.EMAIL_USERNAME}`,
+                pass: `${process.env.EMAIL_PASSWORD}`
             }
         });
     }
